@@ -23,7 +23,7 @@ pub fn App() -> impl IntoView {
     let dark_control = move |ev| set_dark_theme.update(|dark| *dark = event_target_checked(&ev));
 
     view! {
-        <Html attributes=html_attributes />
+        <Html attributes=html_attributes/>
 
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
@@ -32,25 +32,40 @@ pub fn App() -> impl IntoView {
         // sets the document title
         <Title text="Welcome to Leptos"/>
 
-
         <div class="flex gap-4 p-4">
-          <div class="flex-none">
-          <ul class="menu bg-base-200 w-56 rounded-box">
-            <li class="menu-title">Title</li>
-            <li><a>Item 1</a></li>
-            <li><a>Item 2</a></li>
-            <li><a>Item 3</a></li>
-            <li class="form-control">
-                <label class="label cursor-pointer">
-                  <span class="label-text font-semibold">Dark mode</span>
-                  <input type="checkbox" class="toggle" on:change=dark_control />
-                </label>
-            </li>
-          </ul>
-          </div>
-          <div class="grow text-center bg-base-200 rounded-box">
-            <Home />
-          </div>
+            <div class="flex-none">
+                <ul class="menu bg-base-200 w-56 rounded-box">
+                    <li class="menu-title">
+                        Title
+                    </li>
+                    <li>
+                        <a>
+                            Item 1
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            Item 2
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            Item 3
+                        </a>
+                    </li>
+                    <li class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text font-semibold">
+                                Dark mode
+                            </span>
+                            <input type="checkbox" class="toggle" on:change=dark_control/>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="grow text-center bg-base-200 rounded-box">
+                <Home/>
+            </div>
         </div>
     }
 }
@@ -72,9 +87,7 @@ fn NotFound() -> impl IntoView {
         resp.set_status(actix_web::http::StatusCode::NOT_FOUND);
     }
 
-    view! {
-        <h1>"Not Found"</h1>
-    }
+    view! { <h1>"Not Found"</h1> }
 }
 
 #[component]
@@ -82,19 +95,18 @@ fn Home() -> impl IntoView {
     let (count, set_count) = create_signal(0);
 
     view! {
-            <h2 class="p-6 text-4xl">"Welcome to Leptos with Tailwind"</h2>
-            <p class="px-10 pb-10">"Tailwind will scan your Rust files for Tailwind class names and compile them into a CSS file."</p>
-            <button
-                class="bg-amber-600 hover:bg-sky-700 px-5 py-3 text-white rounded-lg"
-                on:click=move |_| set_count.update(|count| *count += 1)
-            >
-                "Something's here | "
-                {move || if count() == 0 {
-                    "Click me!".to_string()
-                } else {
-                    count().to_string()
-                }}
-                " | Some more text"
-            </button>
+        <h2 class="p-6 text-4xl">"Welcome to Leptos with Tailwind"</h2>
+        <p class="px-10 pb-10">
+            "Tailwind will scan your Rust files for Tailwind class names and compile them into a CSS file."
+        </p>
+        <button
+            class="bg-amber-600 hover:bg-sky-700 px-5 py-3 text-white rounded-lg"
+            on:click=move |_| set_count.update(|count| *count += 1)
+        >
+            "Something's here | "
+            {move || if count() == 0 { "Click me!".to_string() } else { count().to_string() }}
+
+            " | Some more text"
+        </button>
     }
 }
