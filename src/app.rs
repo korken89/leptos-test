@@ -7,7 +7,7 @@ pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
 
-    let (dark_theme, set_dark_theme) = create_signal(false);
+    let (dark_theme, set_dark_theme) = create_signal(true);
 
     let html_attributes = create_rw_signal::<AdditionalAttributes>(
         vec![("data-theme", move || {
@@ -21,6 +21,13 @@ pub fn App() -> impl IntoView {
     );
 
     let dark_control = move |ev| set_dark_theme.update(|dark| *dark = event_target_checked(&ev));
+    let dark_load = move |ev| set_dark_theme.update(|dark| *dark = event_target_checked(&ev));
+
+    // let checked_ref = create_node_ref::<Input>();
+    // let init_dark = move |_ev: Event| {
+    //     let node = checked_ref.get().unwrap();
+    //     node.set_checked(dark_theme.get());
+    // };
 
     view! {
         <Html attributes=html_attributes/>
@@ -36,7 +43,7 @@ pub fn App() -> impl IntoView {
             <div class="flex-none">
                 <ul class="menu bg-base-200 w-56 rounded-box">
                     <li class="menu-title">
-                        Title
+                        Previous Conversations
                     </li>
                     <li>
                         <a>
@@ -58,7 +65,13 @@ pub fn App() -> impl IntoView {
                             <span class="label-text font-semibold">
                                 Dark mode
                             </span>
-                            <input type="checkbox" class="toggle" on:change=dark_control/>
+                            <input
+                                type="checkbox"
+                                class="toggle"
+                                checked
+                                on:load=dark_load
+                                on:change=dark_control
+                            />
                         </label>
                     </li>
                 </ul>
