@@ -21,7 +21,6 @@ pub fn App() -> impl IntoView {
     );
 
     let dark_control = move |ev| set_dark_theme.update(|dark| *dark = event_target_checked(&ev));
-    let dark_load = move |ev| set_dark_theme.update(|dark| *dark = event_target_checked(&ev));
 
     // let checked_ref = create_node_ref::<Input>();
     // let init_dark = move |_ev: Event| {
@@ -68,8 +67,7 @@ pub fn App() -> impl IntoView {
                             <input
                                 type="checkbox"
                                 class="toggle"
-                                checked
-                                on:load=dark_load
+                                prop:checked=dark_theme
                                 on:change=dark_control
                             />
                         </label>
