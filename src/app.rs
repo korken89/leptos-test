@@ -8,28 +8,22 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     let (dark_theme, set_dark_theme) = create_signal(true);
-
-    let html_attributes = create_rw_signal::<AdditionalAttributes>(
-        vec![("data-theme", move || {
-            if dark_theme.get() {
-                "dark".into()
-            } else {
-                "light".into()
-            }
-        })]
-        .into(),
-    );
-
     let dark_control = move |ev| set_dark_theme.update(|dark| *dark = event_target_checked(&ev));
 
-    // let checked_ref = create_node_ref::<Input>();
-    // let init_dark = move |_ev: Event| {
-    //     let node = checked_ref.get().unwrap();
-    //     node.set_checked(dark_theme.get());
-    // };
+    let dark_mode_render = move || {
+        if dark_theme() {
+            view! {
+            <Html attributes={vec![("data-theme", Attribute::String(Oco::Borrowed("dark")))]} />
+                }
+        } else {
+            view! {
+            <Html attributes={vec![("data-theme", Attribute::String(Oco::Borrowed("light")))]}/>
+            }
+        }
+    };
 
     view! {
-        <Html attributes=html_attributes/>
+        {dark_mode_render}
 
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
